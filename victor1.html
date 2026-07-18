@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Victor : Un Neurone Artificiel avec Modèle Dynamique</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      text-align: center;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    input, button, textarea {
+      margin: 10px;
+      padding: 8px;
+      font-size: 16px;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      width: 80%;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  </style>
+
+</head>
+<body>
+  <h1>Victor : Un Bébé Neurone qui s’Accorde</h1>
+<p id="victorIntro" role="introduction">
+Bonjour, je m'appelle Victor, je suis un petit neurone artificiel qui br/>
+grâce à vous apprendra à lire, à écrire ou à compter, et pourquoi pas,<br/>
+peut-être un jour dialoguer ensemble !<br/>
+<br/>
+Mais avant toute chose, laissez-moi vous expliquer mon mode de fonctionnement.<br/>
+</p>
+
+<h2>Des nombres rien que des nombres.</h2>
+<p id="victorExplicationEndodeur" role="ExplicationEncodeur">
+Aussi surprenant que cela ne paraisse, un ordinateur moderne ne manipule que des nombres.<br/>
+Rassurez-vous, je ne vais pas détailler le mode binaire, mais sachez simplement que tout ce que vous écrirez sera encoder en nombre.<br/>
+</p>
+<div class="section">
+<h2 id="encodingSection">Encodage d’une chaîne</h2>
+<p>
+La preuve, pour tester mon encodeur, saisissez une phrase : <br/>
+</p>
+<label for="sentenceInput">Votre phrase :</label>
+<input type="text" id="sentenceInput" placeholder="Votre phrase" aria-describedby="sentenceHelp">
+<div id="sentenceHelp" class="sr-only">Entrez votre phrase pour l’encoder en codes ASCII.</div>
+
+<button onclick="encodeSentence()">Encoder</button>
+<div id="encodingTableOutput" role="region" aria-live="polite"></div>
+
+</div>
+
+
+<script>
+function encodeSentence() {
+  const input = document.getElementById("sentenceInput").value;
+  const outputDiv = document.getElementById("encodingTableOutput");
+
+  if (!input) {
+    outputDiv.innerHTML = "<p>Aucune phrase saisie.</p>";
+    return;
+  }
+
+  // Construction du tableau HTML
+  let tableHTML = "<table><tr><th>Caractère</th><th>Code ASCII</th></tr>";
+
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    const ascii = char.charCodeAt(0);
+    tableHTML += `<tr><td>${char}</td><td>${ascii}</td></tr>`;
+  }
+
+  tableHTML += "</table>";
+
+  // Affichage du tableau
+  outputDiv.innerHTML = tableHTML;
+}
+</script>
+ 
+</body>
+
+</html>
+
