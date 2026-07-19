@@ -83,6 +83,42 @@ La preuve, pour tester mon encodeur, saisissez une phrase : <br/>
 
 </div>
 
+<h2>Extrait de code</h2>
+<p>
+\\script><br/>
+<h3>Fonction qui converti la phrase en nombre</h3>
+<p>
+function encodeSentence() {<br/>
+  const input = document.getElementById("sentenceInput").value;<br/>
+  const outputDiv = document.getElementById("encodingTableOutput");<br/>
+
+  if (!input) {<br/>
+    outputDiv.innerHTML = "<p>Aucune phrase saisie.</p>";<br/>
+    return;<br/>
+  }<br/>
+</p>
+<h3>construction du tableau</h3>  
+<p>
+  let tableHTML = "<table><tr><th>Caractère</th><th>Code ASCII</th></tr>";<br/>
+
+  for (let i = 0; i < input.length; i++) {<br/>
+    const char = input[i];<br/>
+    const ascii = char.charCodeAt(0);<br/>
+    tableHTML += `<tr><td>${char}</td><td>${ascii}</td></tr>`;<br/>
+  }<br/>
+
+  tableHTML += "</table>";<br/>
+</p>
+  <h3>intégration du tableau dans le document (la page html)</h3>
+  outputDiv.innerHTML = tableHTML;
+}
+\\script
+<a href="index.html">Retour à l'accueil</a>
+
+</p>
+
+
+
 
 <script>
 function encodeSentence() {
