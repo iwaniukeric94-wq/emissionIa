@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Version Perceptron (IA)</title>
+    <style> body { font-family: Arial; margin: 40px; } </style>
+</head>
+<body>
+    <h1>Le <strong>perceptron</strong> ou le premier neurone artificiel</h1>
+<p>
+Depuis les années 60, les chercheurs ont commencé à explorer les limites de la machine et à se demander si un 
+ordinateur pouvait, d’une certaine manière, « penser ». Après le <strong>perceptron</strong> de Frank Rosenblatt, 
+les scientifiques se sont tournés vers l’étude du <strong>cerveau humain</strong> pour comprendre comment il 
+fonctionne, et en particulier le rôle des <strong>neurones</strong>.  
+<br><br>
+Un neurone biologique baigne dans le liquide céphalo-rachidien et reçoit en permanence des <em>influx électriques</em>. 
+Grâce à ses <strong>dendrites</strong>, il capte ces signaux, les combine et en produit une <strong>synthèse</strong>. 
+Cette synthèse est ensuite transmise aux neurones voisins par ses <strong>axones</strong>, qui servent de voie de sortie.  
+Chaque neurone réagit plus ou moins fortement à ce qu’il reçoit, produisant à son tour une nouvelle synthèse.  
+De neurone en neurone, ces échanges permettent de percevoir, ressentir, mémoriser ou réciter une leçon apprise par cœur.  
+<br><br>
+Bien sûr, un <strong>neurone artificiel</strong> ne pense pas. Mais il s’inspire de ce modèle biologique : il reçoit 
+des entrées, les pondère, les additionne et produit une sortie. Observons maintenant comment cette modélisation se traduit 
+dans notre petit exemple.
+</p>
+
+    <p>Qu'avez-vous mangé au petit-déjeuner ce matin ?</p>
+
+    <input type="checkbox" id="croissant"> Croissant<br>
+    <input type="checkbox" id="painchoco"> Pain au chocolat<br>
+    <input type="checkbox" id="baguette"> Baguette<br>
+    <input type="checkbox" id="cafe"> Café<br>
+    <input type="checkbox" id="jus"> Jus d'orange<br><br>
+
+    <button onclick="analyserPerceptron()">Analyser avec Perceptron</button>
+
+    <div id="result" style="margin-top:20px; font-weight:bold;"></div>
+
+<h2>Extrait de code</h2>
+<p>
+Le code ci-dessous représente le fonctionnement d’un <strong>petit neurone artificiel</strong>, aussi appelé 
+<a href="#" aria-label="perceptron">perceptron</a>.  
+Il reçoit des informations sous forme de cases cochées (vos choix de petit-déjeuner), les transforme en nombres 
+et calcule une <em>somme pondérée</em>.  
+Selon cette valeur, il produit une réponse différente.  
+<br><br>
+Dans cette version, tout est volontairement simplifié : les poids sont à zéro, le biais est fixe, et la logique 
+se limite à quelques seuils pour illustrer comment un neurone peut « décider » d’une réponse.  
+C’est une base pédagogique qui permet de comprendre comment un modèle plus complexe peut analyser des données 
+et produire un résultat.<br/>
+<br/>
+//script>
+function analyserPerceptron() {<br/>
+</p>
+<h3> analyse des entrées(1 = coché, 0 = non coché)</h3>
+<p>
+construction de l'encodeur<br/>
+let inputs = [<br/>
+document.getElementById('croissant').checked ? 1 : 0,<br/>
+document.getElementById('painchoco').checked ? 1 : 0,<br/>
+document.getElementById('baguette').checked ? 1 : 0,<br/>
+document.getElementById('cafe').checked ? 1 : 0,
+document.getElementById('jus').checked ? 1 : 0<br/>
+];<br/>
+</p>
+<h3>poids permettant au neurone d'associer un alliment à un nombre<h3>
+<p>
+au départ notre neurone ne connaît pas le petit déjeuner. Donc poids à 0.<br/> 
+const poids = [0, 0, 0, 0, 0];<br/>
+const biais=0; : définie la tendance générale l'humeur du neurone.<br/>
+</p>
+<h3>le neurone calcul pour synthétiser les informations perçues par ses dendrites</h3>
+<p>
+let somme = 0;<br/>
+for (let i = 0; i < inputs.length; i++) {<br/>
+somme += inputs[i] * poids[i];<br/>
+}<br/>
+</p>
+<h3>stocke la synthèse dans "reponse"</h3>
+<p>
+let reponse = somme > 1.8 ? "Vous êtes un vrai amateur de viennoiseries françaises !" :<br/>
+somme > 1.2 ? "Vous avez un bon équilibre petit-déjeuner." :<br/>
+somme === 0 ? "Je ne sais pas encore quoi vous répondre, je n'ai jamais consommé de petit-déjeuner." : "déjeuner détecté";<br/>
+</p>
+<h3>affichage de la sortie du neurone</h3>
+<p>
+document.getElementById('result').innerHTML = reponse;<br/>
+}</br>
+//script//
+<p><ahref="index.html">accueil</a></p>
+
+
+    <script>
+        function analyserPerceptron() {
+            // Entrées (1 = coché, 0 = non coché)
+            let inputs = [
+                document.getElementById('croissant').checked ? 1 : 0,
+                document.getElementById('painchoco').checked ? 1 : 0,
+                document.getElementById('baguette').checked ? 1 : 0,
+                document.getElementById('cafe').checked ? 1 : 0,
+                document.getElementById('jus').checked ? 1 : 0
+            ];
+
+            // au départ notre neurone ne connaît pas le petit déjeuner. Donc poids à 0. 
+            const poids = [0, 0, 0, 0, 0];
+            const biais=0; // définie la tendance générale l'humeur du neurone.
+            let somme = 0;
+            for (let i = 0; i < inputs.length; i++) {
+                somme += inputs[i] * poids[i];
+            }
+
+            let reponse = somme > 1.8 ? "Vous êtes un vrai amateur de viennoiseries françaises !" :
+                          somme > 1.2 ? "Vous avez un bon équilibre petit-déjeuner." :
+                          somme === 0 ? "Je ne sais pas encore quoi vous répondre, je n'ai jamais consommé de petit-déjeuner." : "déjeuner détecté";
+
+            document.getElementById('result').innerHTML = reponse;
+        }
+    </script>
+</body>
+</html>
