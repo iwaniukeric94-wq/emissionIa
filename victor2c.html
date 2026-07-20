@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Victor 2C - Entraînement du perceptron</title>
+</head>
+<body>
+  <h1>Entraîner le neurone du petit-déjeuner</h1>
+
+  <p>Cochez ce que vous avez mangé, puis indiquez si c'est un bon petit-déjeuner ou non.</p>
+
+  <form>
+    <label><input type="checkbox" id="croissant"> Croissant</label><br>
+    <label><input type="checkbox" id="painchoco"> Pain au chocolat</label><br>
+    <label><input type="checkbox" id="baguette"> Baguette</label><br>
+    <label><input type="checkbox" id="cafe"> Café</label><br>
+    <label><input type="checkbox" id="jus"> Jus de fruits</label><br><br>
+
+    <label><input type="radio" name="label" id="labelBon" checked> Bon petit-déjeuner</label><br>
+    <label><input type="radio" name="label" id="labelMauvais"> Mauvais petit-déjeuner</label><br><br>
+
+    <button type="button" onclick="entrainerPerceptron()">Entraîner le modèle</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    function entrainerPerceptron() {
+      let inputs = [
+        document.getElementById('croissant').checked ? 1 : 0,
+        document.getElementById('painchoco').checked ? 1 : 0,
+        document.getElementById('baguette').checked ? 1 : 0,
+        document.getElementById('cafe').checked ? 1 : 0,
+        document.getElementById('jus').checked ? 1 : 0
+      ];
+
+      // cible : 1 = bon petit-déjeuner, 0 = mauvais
+      let cible = document.getElementById('labelBon').checked ? 1 : 0;
+
+      let poids = JSON.parse(localStorage.getItem("poidsPetitDej")) || [0, 0, 0, 0, 0];
+      let biais = parseFloat(localStorage.getItem("biaisPetitDej"));
+      if (isNaN(biais)) biais = 0;
+
+      // calcul de la sortie actuelle
+      let somme = biais;
+      for (let i = 0; i < inputs.length; i++) {
+        somme += inputs[i] * poids[i];
+      }
+      let sortie = somme > 0 ? 1 : 0;
+
+      // erreur et mise à jour (apprentissage supervisé)
+      let erreur = cible - sortie;
+      let taux = 0.5; // un peu fort pour que ça bouge vite en démo
+
+      for (let i = 0; i < inputs.length; i++) {
+        poids[i] += taux * erreur * inputs[i];
+      }
+      biais += taux * erreur;
+
+      localStorage.setItem("poidsPetitDej", JSON.stringify(poids));
+      localStorage.setItem("biaisPetitDej", biais);
+
+      document.getElementById('result').innerHTML =
+        "Modèle ajusté en fonction de votre jugement.";
+    }
+  </script>
+</body>
+</html>

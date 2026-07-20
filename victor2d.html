@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Victor 2D - Test du perceptron</title>
+</head>
+<body>
+  <h1>Tester le neurone du petit-déjeuner</h1>
+
+  <p>Cochez un petit-déjeuner et laissez le neurone vous dire ce qu’il en pense.</p>
+
+  <form>
+    <label><input type="checkbox" id="croissant"> Croissant</label><br>
+    <label><input type="checkbox" id="painchoco"> Pain au chocolat</label><br>
+    <label><input type="checkbox" id="baguette"> Baguette</label><br>
+    <label><input type="checkbox" id="cafe"> Café</label><br>
+    <label><input type="checkbox" id="jus"> Jus de fruits</label><br><br>
+
+    <button type="button" onclick="analyserPerceptron()">Analyser ce petit-déjeuner</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    function analyserPerceptron() {
+      let inputs = [
+        document.getElementById('croissant').checked ? 1 : 0,
+        document.getElementById('painchoco').checked ? 1 : 0,
+        document.getElementById('baguette').checked ? 1 : 0,
+        document.getElementById('cafe').checked ? 1 : 0,
+        document.getElementById('jus').checked ? 1 : 0
+      ];
+
+      let poids = JSON.parse(localStorage.getItem("poidsPetitDej"));
+      let biais = parseFloat(localStorage.getItem("biaisPetitDej"));
+      if (isNaN(biais)) biais = 0;
+
+      if (!poids) {
+        document.getElementById('result').innerHTML =
+          "Le modèle n'a pas encore été entraîné (allez sur la page d'entraînement).";
+        return;
+      }
+
+      let somme = biais;
+      for (let i = 0; i < inputs.length; i++) {
+        somme += inputs[i] * poids[i];
+      }
+
+      let sortie = somme > 0 ? 1 : 0;
+
+      let reponse = sortie === 1
+        ? "Selon le modèle, c'est un bon petit-déjeuner."
+        : "Selon le modèle, ce petit-déjeuner n'est pas optimal.";
+
+      document.getElementById('result').innerHTML = reponse;
+    }
+  </script>
+</body>
+</html>
