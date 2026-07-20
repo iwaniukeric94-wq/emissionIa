@@ -1,0 +1,70 @@
+<html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Victor - Local avec Ollama</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        input { width: 75%; padding: 12px; font-size: 17px; }
+        button { padding: 12px 20px; font-size: 17px; }
+        #reponses { margin-top: 25px; }
+        .user { color: blue; margin: 12px 0; }
+        .victor { color: green; margin: 12px 0; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Victor - IA Locale (Ollama)</h1>
+    <p><strong>Status :</strong> <span id="status">En attente...</span></p>
+
+    <input type="text" id="question" placeholder="Pose ta question ici..." autofocus>
+    <button onclick="envoyer()">Envoyer</button>
+
+    <div id="reponses"></div>
+
+    <script>
+        const statusEl = document.getElementById('status');
+
+        async function envoyer() {
+            const q = document.getElementById('question').value.trim();
+            if (!q) return;
+
+            const div = document.getElementById('reponses');
+            div.innerHTML += `<p class="user"><strong>Vous :</strong> ${q}</p>`;
+
+            try {
+                const res = await fetch('http://127.0.0.1:11434/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: "qwen2.5:3b",
+                        messages: [{ role: "user", content: q }],
+                        stream: false
+                    })
+                });
+
+                if (!res.ok) throw new Error("Ollama ne répond pas");
+
+                const data = await res.json();
+                const reponse = data.message?.content || "Pas de réponse";
+                div.innerHTML += `<p class="victor"><strong>Victor :</strong> ${reponse}</p>`;
+                statusEl.textContent = "Connecté ✓";
+                statusEl.style.color = "green";
+            } catch (e) {
+                div.innerHTML += `<p class="error">Erreur : ${e.message}</p>`;
+                statusEl.textContent = "Erreur de connexion";
+                statusEl.style.color = "red";
+            }
+
+            document.getElementById('question').value = '';
+            div.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // Envoi avec Entrée
+        document.getElementById('question').addEventListener('keypress', e => {
+            if (e.key === 'Enter') envoyer();
+        });
+    </script>
+</body>
+</html>
